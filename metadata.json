@@ -1,0 +1,6 @@
+{
+  "name": "Telegram Media Group Caption Syncer",
+  "description": "Professional Telegram bot manager and album caption synchronizer that automatically propagates captions across all messages in media groups.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
