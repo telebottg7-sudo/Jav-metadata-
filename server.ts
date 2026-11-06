@@ -4,8 +4,12 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import fs from 'fs';
+import { execFile } from 'child_process';
+import { promisify } from 'util';
 
 dotenv.config();
+
+const execFileAsync = promisify(execFile);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CONFIG_FILE = path.join(__dirname, 'bot_config.json');
@@ -123,8 +127,36 @@ interface JavMovieData {
   description: string;
 }
 
+async function lookupWithJavdbPackage(code: string): Promise<JavMovieData | null> {
+  const python = process.env.JAVDB_PYTHON || path.resolve(__dirname, '.venv/bin/python');
+  const bridge = path.resolve(__dirname, 'javdb_lookup.py');
+  try {
+    const { stdout } = await execFileAsync(python, [bridge, code], {
+      timeout: 30_000,
+      maxBuffer: 2 * 1024 * 1024,
+    });
+    const movie = JSON.parse(stdout);
+    return {
+      code: movie.dvd_id || code,
+      title: movie.title || code,
+      actress: Array.isArray(movie.actresses) ? movie.actresses.join(', ') : '',
+      date: movie.release_date || '',
+      coverUrl: movie.poster || '',
+      samples: Array.isArray(movie.preview_images) ? movie.preview_images.slice(0, 10) : [],
+      movieUrl: movie.link || `https://www.javdatabase.com/movies/${code.toLowerCase()}/`,
+      description: movie.plot || '',
+    };
+  } catch (err: any) {
+    console.warn(`javdb package lookup failed for ${code}:`, err?.message || err);
+    return null;
+  }
+}
+
 async function scrapeJavDatabase(rawCode: string): Promise<JavMovieData | null> {
   const code = rawCode.trim().toUpperCase();
+  const packageResult = await lookupWithJavdbPackage(code);
+  if (packageResult) return packageResult;
+
   const directSlug = code.toLowerCase();
   const directUrl = `https://www.javdatabase.com/movies/${directSlug}/`;
   
