@@ -1,7 +1,7 @@
 {
-  "botToken": "8891106702:AAFxDH5dLDwR_ONqUoULhuIIikGJpY6k_po",
+  "botToken": "8891106702:",
   "botUsername": "@translatefaroffbot",
-  "lastChatId": "-1003960900000",
+  "lastChatId": "-",
   "defaultUploadChannel": "@my_default_thumbnail_channel",
   "dumpChannel": "@MyVideoDumpChannel",
   "screenshotChannel": "@MySampleScreenshotChannel",
