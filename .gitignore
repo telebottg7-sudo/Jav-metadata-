@@ -1,4 +1,5 @@
 node_modules/
+server.js
 build/
 dist/
 coverage/
