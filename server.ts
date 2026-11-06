@@ -45,7 +45,12 @@ function loadConfigFromFile(): BotConfig {
     if (fs.existsSync(CONFIG_FILE)) {
       const data = fs.readFileSync(CONFIG_FILE, 'utf8');
       const parsed = JSON.parse(data);
-      return { ...defaultConfig, ...parsed };
+      return {
+        ...defaultConfig,
+        ...parsed,
+        // Never let a committed/local config override the deployment secret.
+        botToken: process.env.TELEGRAM_BOT_TOKEN || parsed.botToken || '',
+      };
     }
   } catch (e) {
     console.error('Failed to load bot_config.json:', e);

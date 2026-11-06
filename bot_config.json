@@ -1,14 +1,14 @@
 {
-  "botToken": "8891106702:",
-  "botUsername": "@translatefaroffbot",
-  "lastChatId": "-",
-  "defaultUploadChannel": "@my_default_thumbnail_channel",
-  "dumpChannel": "@MyVideoDumpChannel",
-  "screenshotChannel": "@MySampleScreenshotChannel",
+  "botToken": "",
+  "botUsername": "",
+  "lastChatId": "",
+  "defaultUploadChannel": "",
+  "dumpChannel": "",
+  "screenshotChannel": "",
   "mode": "javdb_metadata",
   "customSuffix": "\n\n✨ <i>Synced via MediaGroup Bot</i>",
   "watermarkText": "@MyChannel",
   "autoHashtags": true,
-  "enabled": true,
+  "enabled": false,
   "deliveryMethod": "both"
 }
